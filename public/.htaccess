@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /TusharVerse/public
+
+    # Direct existing files and directories through normal handling
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Route all other requests through the front controller
+    RewriteRule ^ index.php [L]
+</IfModule>
