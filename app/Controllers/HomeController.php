@@ -5,11 +5,18 @@ declare(strict_types=1);
 namespace TusharRk315\Tusharverse\Controllers;
 
 use TusharRk315\Tusharverse\Core\Controller;
+use TusharRk315\Tusharverse\Core\Session;
+use TusharRk315\Tusharverse\Core\Response;
 
 class HomeController extends Controller
 {
     public function index(): void
     {
+        if (!Session::has('user')) {
+            (new Response())->redirect('/login');
+            return;
+        }
+
         $this->view('home/index');
     }
 

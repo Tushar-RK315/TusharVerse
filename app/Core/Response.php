@@ -15,6 +15,15 @@ class Response
 
     public function redirect(string $url): never
     {
+        if (str_starts_with($url, '/')) {
+            $basePath = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/'));
+            $basePath = rtrim($basePath, '/');
+
+            if ($basePath !== '' && $basePath !== '/' && !str_starts_with($url, $basePath)) {
+                $url = $basePath . $url;
+            }
+        }
+
         header("Location: {$url}");
         exit;
     }

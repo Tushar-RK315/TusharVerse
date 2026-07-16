@@ -33,8 +33,32 @@ class Session
         unset($_SESSION[$key]);
     }
 
+    public static function flash(string $key, mixed $value): void
+    {
+        self::set("_flash.{$key}", $value);
+    }
+
+    public static function old(string $key, mixed $default = ''): mixed
+    {
+        $flashKey = "_flash.old.{$key}";
+
+        if (!self::has($flashKey)) {
+            return $default;
+        }
+
+        $value = self::get($flashKey);
+        self::remove($flashKey);
+
+        return $value;
+    }
+
     public static function destroy(): void
     {
         session_destroy();
+    }
+
+    public static function regenerate(): void
+    {
+        session_regenerate_id(true);
     }
 }
